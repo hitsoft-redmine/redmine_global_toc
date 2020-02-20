@@ -5,10 +5,10 @@ module RedmineGlobalToc::GlobalToc
     macro :global_toc do |obj, args|
       _textile = ''
       Project.project_tree(Project.all) do |project, level = 0|
-        _printable = RedmineGlobalToc::GlobalToc.project_printable?(project)
-        _wiki = project.visible? && (project.wiki != nil)
+        _wiki = !project.wiki.nil? && project.wiki.visible?
+        _printable = RedmineGlobalToc::GlobalToc.project_printable?(project) && (_wiki || !project.children.empty?)
         if _printable
-          if _wiki
+          if _wiki && project.visible?
             _textile = _textile + "#{"*" * (level + 1)} [[#{project.identifier}:|#{project.name}]]\n"
           else
             _textile = _textile + "#{"*" * (level + 1)} #{project.name}\n"
