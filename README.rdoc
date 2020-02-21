@@ -1,3 +1,0 @@
-= Redmine Global Toc plugin
-
-This is a plugin for Redmine with wiki macro that collects all projects available to the user and form the global Redmine Table of Content with links to all wikis for the user.
