@@ -8,7 +8,7 @@ This is a plugin for Redmine with wiki macro that collects all projects availabl
 * Private — private project user do not have access to with wiki
   * Public Child — public subproject without wiki
 * Public — public project with wiki (not initialized)
-  * Private Child — private subproject user have access to with wiki (not initalized)
+  * Private Child — private subproject user have access to with wiki (initalized)
 * test — public project
 
 ![](.README_images/project_structure.png)
