@@ -5,10 +5,8 @@ module RedmineGlobalToc::GlobalToc
     macro :global_toc do |obj, args|
       _textile = ''
       Project.project_tree(Project.all) do |project, level = 0|
-        _wiki = !project.wiki.nil? && project.wiki.visible?
-        _printable = RedmineGlobalToc::GlobalToc.project_printable?(project) && (_wiki || !project.children.empty?)
-        if _printable
-          if _wiki && project.visible?
+        if RedmineGlobalToc::GlobalToc.project_printable?(project)
+          if RedmineGlobalToc::GlobalToc.wiki_visible?(project)
             _textile = _textile + "#{"*" * (level + 1)} [[#{project.identifier}:|#{project.name}]]\n"
           else
             _textile = _textile + "#{"*" * (level + 1)} #{project.name}\n"
@@ -20,7 +18,7 @@ module RedmineGlobalToc::GlobalToc
   end
 
   def project_printable?(project)
-    result = project.visible?
+    result = wiki_visible?(project)
     unless result
       project.children.each do |child|
         result = result || project_printable?(child)
@@ -29,5 +27,10 @@ module RedmineGlobalToc::GlobalToc
     result
   end
 
+  def wiki_visible?(project)
+    project.visible? && !project.wiki.nil? && project.wiki.visible?
+  end
+
   module_function :project_printable?
+  module_function :wiki_visible?
 end
